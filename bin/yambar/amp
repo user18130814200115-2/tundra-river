@@ -1,0 +1,13 @@
+#!/bin/bash
+
+sleep 10
+
+while true; do
+    cache="$HOME/.cache/coins2"
+    diff=$(curl -s eur.rate.sx/$(cat $cache))
+    current=${diff:0:4}
+    
+    [ ${current:0:1} = "-" ] && printf "amp|string|\n" | tee /tmp/yambaramp || printf "amp|string|apm:%s\n" $current | tee /tmp/yambaramp
+    printf "\n"
+    sleep 60
+done

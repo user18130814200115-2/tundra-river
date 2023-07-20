@@ -1,0 +1,24 @@
+#!/bin/sh
+
+#printf "bitcoin|string|\n"
+#printf "\n"
+#
+#sleep 60
+#
+#while true; do
+#    cache="$HOME/.cache/coins"
+#    diff=$(curl -s eur.rate.sx/$(cat $cache))
+#    current=${diff:0:1}${diff:1:5}
+#    
+##    [ ${current:0:1} = "-" ] && printf "bitcoin|string|\n" | tee /tmp/yambarbitcoin || printf "bitcoin|string|btc:%s\n" $current | tee /tmp/yambarbitcoin 
+#    printf "bitcoin|string|%s\n" $current | tee /tmp/yambarbitcoin 
+#    printf "\n"
+#    sleep 60
+#done
+##[ ${current:0:1} = "-" ] && printf "\n#6b363b\n" || printf "\n#4f673a\n"
+
+price=$(curl -s eur.rate.sx/1BTC | grep -o "^[0-9]*")
+[ $price -gt 40000 ] &&\
+    printf "bitcoin|string|$price\n" ||\
+    printf "bitcoin|string|\n"
+printf "\n"

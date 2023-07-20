@@ -1,0 +1,6 @@
+#!/bin/sh
+
+location="$HOME/Media/Screenshots/$(date +'%Y-%m-%d-%H-%M-%S').png"
+
+grimshot save $1 $location
+notify-send.sh -i gnome-screenshot "Screenshot" "$location"

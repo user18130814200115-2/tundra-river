@@ -1,0 +1,20 @@
+#!/bin/sh
+ondev() {
+    dev="$1"
+    [ $(v4l2-ctl -d $dev -L | grep -c exposure_auto) -lt 1 ] && exit 
+    mode=$(v4l2-ctl -d $dev -C exposure_auto | grep -o "[0-9]")
+    
+    [ $mode -eq 3 ] &&\
+        v4l2-ctl -d $dev -c exposure_auto=1 &&\
+        v4l2-ctl -d $dev -c exposure_absolute=300
+    
+    value=$(v4l2-ctl -d $dev -C exposure_absolute | grep -o [0-9]*)
+    value=$(expr $value "$2" 2)
+    
+    v4l2-ctl -d $dev -c exposure_absolute=$value
+
+}
+for i in 0 1 2 3 4; do
+    dev="/dev/video$i"
+    ondev "$dev" "$1" &
+done
